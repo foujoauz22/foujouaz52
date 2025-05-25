@@ -1,6 +1,7 @@
 name: Run Model Training
 
 on:
+  workflow_dispatch:  # Enables the manual "Run workflow" button
   push:
     branches:
       - main
@@ -11,7 +12,7 @@ on:
 jobs:
   train-model:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 360  # Max for free tier
 
     steps:
     # Checkout the repository
@@ -40,10 +41,4 @@ jobs:
     - name: Run training script
       run: python train_model.py
 
-    # Store generated plots as artifacts
-    - name: Upload plots
-      uses: actions/upload-artifact@v4
-      with:
-        name: training-plots
-        path: "*.png"
-      if: always()
+  
